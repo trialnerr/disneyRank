@@ -51,7 +51,7 @@ connectToDB()
 //READ (get all rappers, return a rappers array)
 app.get('/', async (req, res) => {
   try {
-    const rappers = await collection.find().toArray();
+    const rappers = await collection.find().sort({ likes: -1 }).toArray();
     res.status(200).render('index.ejs', { rappers });
   } catch (error) {
     console.error(error);
@@ -61,7 +61,11 @@ app.get('/', async (req, res) => {
 //CREATE (add a rapper to db)
 app.post('/addRapper', async (req, res) => {
   try {
-    await collection.insertOne({ ...req.body, likes: 0 });
+    //check if rapper exists first before adding
+    const rapper = await collection.findOne(req.body);
+    if (!rapper) {
+      await collection.insertOne({ ...req.body, likes: 0 });
+    }
     res.redirect('/');
   } catch (error) {
     console.log(error);
@@ -71,11 +75,11 @@ app.post('/addRapper', async (req, res) => {
 //UPDATE (edit a rapper's likes)
 app.put('/addLike', async (req, res) => {
   try {
-    const { name, birthName } = req.body;
+    const { name, birthDate } = req.body;
     await collection.updateOne(
       {
         name,
-        birthName,
+        birthDate,
       },
       {
         $inc: { likes: 1 },
@@ -89,7 +93,7 @@ app.put('/addLike', async (req, res) => {
 });
 
 //DELETE (delete a rapper from db)
-app.delete('deleteRapper', async(req, res) => {
+app.delete('/deleteRapper', async (req, res) => {
   try {
     await collection.deleteOne(req.body);
     res.status(200).send('Rapper deleted');
