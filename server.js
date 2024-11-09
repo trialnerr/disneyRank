@@ -72,24 +72,31 @@ app.post('/addRapper', async (req, res) => {
 app.put('/addLike', async (req, res) => {
   try {
     const { name, birthName } = req.body;
-    const coll = db.collection('rappers');
-    const rapper = await coll.findOne({
-      name, birthName
-    });
-    if (!rapper) {
-      res.status(404).send('Rapper not found');
-    }
-    await coll.updateOne(
-      { name, birthName },
-      { $set: { likes: rapper.likes + 1 } }
+    await collection.updateOne(
+      {
+        name,
+        birthName,
+      },
+      {
+        $inc: { likes: 1 },
+      }
     );
     res.status(200).send('Rapper likes updated');
   } catch (error) {
-    console.error(error);
+    console.error('Error add likes', error);
     res.status(500).send('Error updating likes');
   }
-}
-);
+});
 
 //DELETE (delete a rapper from db)
-// app.delete('/rappers:id');
+app.delete('deleteRapper', async(req, res) => {
+  try {
+    await collection.deleteOne(req.body);
+    res.status(200).send('Rapper deleted');
+  } catch (error) {
+    console.error('Error deleting rapper', error);
+    res.status(500).send('Error deleting rapper');
+  }
+})
+
+
