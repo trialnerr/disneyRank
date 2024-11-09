@@ -1,70 +1,60 @@
 const thumbUps = Array.from(document.getElementsByClassName('fa-thumbs-up'));
-console.log(thumbUps);
-// const trashCans = Array.from(document.querySelector('.fa-trash'));
+const trashCans = Array.from(document.querySelectorAll('.fa-trash'));
 
-// <ul class="messages">
-//     <% for (let i = 0; i < rappers.length; i++){ %>
-//       <li class="rapper">
-//         <span>Name: <%= rappers[i].name %></span>
-//         <span>Birth Date: <%= rappers[i].birthDate %></span>
-//         <span>Likes: <%= rappers[i].likes %></span>
-//         <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
-//       </li>
-//     <% } %>
-//   </ul>
 thumbUps.forEach(function (element, i) {
   element.addEventListener('click', function () {
-    console.log(`clicked ${i}`);
-    const name = this.parentNode.parentNode.childNodes[1].innerText;
-    const msg = this.parentNode.parentNode.childNodes[3].innerText;
-    const thumbUp = parseFloat(
-      this.parentNode.parentNode.childNodes[5].innerText
-    );
-    console.log({name, msg, thumbUp})
-    fetch('messages', {
+    // console.log(`clicked ${i}`);
+    console.log(this.parentNode.parentNode.parentNode.parentNode.childNodes);
+    const name = this.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText.trim();
+    const birthDate = this.parentNode.parentNode.parentNode.parentNode.childNodes[3].innerText.trim();
+    console.log({ name, birthDate})
+   
+    fetch('addLike', {
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: name,
-        msg: msg,
-        thumbUp: thumbUp,
+        name,
+        birthDate
       }),
     })
       .then((response) => {
-        if (response.ok) return response.json();
+        if (response.ok) return response.text();
+        else console.error(`error: status: ${response.status}, statusText: ${response.statusText}`);
       })
       .then((data) => {
-        console.log(data);
-        // window.location.reload(true);
+        window.location.reload(true);
       });
   });
 });
 
-// trashCans.forEach(function (element) {
-//   element.addEventListener('click', function () {
-//     const name = this.parentNode.parentNode.childNodes[1].innerText;
-//     const msg = this.parentNode.parentNode.childNodes[3].innerText;
-//     fetch('messages', {
-//       method: 'delete',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({
-//         name: name,
-//         msg: msg,
-//       }),
-//     }).then(function (response) {
-//       window.location.reload();
-//     });
-//   });
-// });
+trashCans.forEach(function (element, i) {
+  element.addEventListener('click', function () {
+    const ancestor = this.parentNode.parentNode.parentNode;
+    const name =
+      ancestor.childNodes[1].innerText.trim();
+    const birthDate =
+      ancestor.childNodes[3].innerText.trim();
+    console.log({ name, birthDate });
 
-// structure:
-//  <li class="message">
-//       <span><%= messages[i].name %></span>
-//       <span><%= messages[i].msg %></span>
-//       <span><%= messages[i].thumbUp %></span>
-//       <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
-//       <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
-//       <span><i class="fa fa-trash" aria-hidden="true"></i></span>
-//     </li>
+    fetch('deleteRapper', {
+      method: 'delete',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        birthDate,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) return response.text();
+        else
+          console.error(
+            `error: status: ${response.status}, statusText: ${response.statusText}`
+          );
+      })
+      .then((data) => {
+         window.location.reload(true);
+      });
+  });
+});
+
+
