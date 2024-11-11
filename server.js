@@ -11,10 +11,9 @@ app.use(express.static('public'));
 
 // Replace the placeholder with your Atlas connection string
 const dbConnectionStr = process.env.DB_STRING;
-const dbName = 'rappersDb';
+const dbName = 'disneyRank';
 let collection;
 
-//Note: Worked with Mike Pennisi
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(dbConnectionStr, {
   serverApi: {
@@ -27,7 +26,7 @@ const client = new MongoClient(dbConnectionStr, {
 async function connectToDB() {
   // Connect the client to the server (optional starting in v4.7)
   await client.connect();
-  collection = client.db(dbName).collection('rappers');
+  collection = client.db(dbName).collection('movies');
   console.log('You successfully connected to MongoDB!');
 }
 
@@ -48,22 +47,23 @@ connectToDB()
   )
   .catch(console.dir);
 
-//READ (get all rappers, return a rappers array)
+// READ (get all rappers, return a rappers array)
 app.get('/', async (req, res) => {
   try {
-    const rappers = await collection.find().sort({ likes: -1 }).toArray();
-    res.status(200).render('index.ejs', { rappers });
+    const movies = await collection.find().sort({ likes: -1 }).toArray();
+    res.status(200).render('index.ejs', { movies });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error rendering page');
   }
 });
-//CREATE (add a rapper to db)
-app.post('/addRapper', async (req, res) => {
+
+//CREATE (add a song to db)
+app.post('/movies', async (req, res) => {
   try {
-    //check if rapper exists first before adding
-    const rapper = await collection.findOne(req.body);
-    if (!rapper) {
+    const { name, song } = req.body; 
+    const songInDB = await collection.findOne({ song });
+    if (!songInDB) {
       await collection.insertOne({ ...req.body, likes: 0 });
     }
     res.redirect('/');
@@ -72,20 +72,20 @@ app.post('/addRapper', async (req, res) => {
   }
 });
 
-//UPDATE (edit a rapper's likes)
-app.put('/addLike', async (req, res) => {
+//UPDATE add a like to the song
+app.put('/likeMovie', async (req, res) => {
   try {
-    const { name, birthDate } = req.body;
+    const { name, song } = req.body;
     await collection.updateOne(
       {
         name,
-        birthDate,
+        song
       },
       {
         $inc: { likes: 1 },
       }
     );
-    res.status(200).send('Rapper likes updated');
+    res.status(200).send('Song likes updated');
   } catch (error) {
     console.error('Error add likes', error);
     res.status(500).send('Error updating likes');
