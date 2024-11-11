@@ -4,34 +4,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Best rappers in town</title>
-  <link rel="shortcut icon" href="favicon.ico">
+  <title>Rank Disney Songs</title>
   <link rel="stylesheet" href="font-awesome.min.css" />
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <script src="main.js" defer></script>
-  <h1>Rapper Rankings</h1>
-  <img src="/noname.jpg" alt="A picture of the rapper NoName facing ahead">
-  <h2>This is an ode to Haiti, Mozambique, Martinique, Trinidad, Grenada
-    Wherever Black people sleep, pray for them
-    Pray for me, pray for me, pray for me</h2>
-  <h3>Rappers</h3>
-  <ul class="rappers">
-    <% for (let i=0; i < rappers.length; i++){ %>
-      <li class="rapper">
-        <span>
-          <%= rappers[i].name %>
+  <h1>Ranking Disney Songs</h1>
+  <img src="https://media.giphy.com/media/hNDY4WzjStec8/giphy.gif?cid=790b7611gbccatomajnktwm2oylg7m69wr1fgb7je0xzk1bk&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="">
+  <h2>Disney Songs</h2>
+  <ul class="songs">
+    <% for (let i=0; i < movies.length; i++){ %>
+      <li class="song">
+        <span class="name">
+          <%= movies[i].name %>
         </span>
         <span>
-          <%= rappers[i].birthDate %>
+          <%= movies[i].song %>
         </span>
         <div class="wrapper">
           <div class="likes">
             <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
+            <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
             <span>
-              <%= rappers[i].likes %>
+              <%= movies[i].likes %>
             </span>
           </div>
           <span class="trash"><i class="fa fa-trash" aria-hidden="true"></i></span>
@@ -39,15 +36,15 @@
       </li>
       <% } %>
   </ul>
-  <h3>Add a Rapper:</h3>
-  <form action="/addRapper" method="post">
-    <label for="name">Stage Name:</label>
+  <h3>Add a Disney Song:</h3>
+  <form action="/movies" method="post">
+    <label for="name">Movie name:</label>
     <input type="text" id="name" name="name" required>
     <br>
-    <label for="birthDate">Birth Day:</label>
-    <input type="date" id="birthDate" name="birthDate" required>
+    <label for="song">Song from movie:</label>
+    <input type="text" id="song" name="song" required>
     <br>
-    <button type="submit">Add Rapper</button>
+    <button type="submit">Add Song</button>
   </form>
 
 </body>
