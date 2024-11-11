@@ -92,6 +92,27 @@ app.put('/addLike', async (req, res) => {
   }
 });
 
+//UPDATE (edit a rapper's likes)
+app.put('/subtractLike', async (req, res) => {
+  try {
+    const { name, birthDate } = req.body;
+    await collection.updateOne(
+      {
+        name,
+        birthDate,
+      },
+      {
+        $inc: { likes: -1 },
+      }
+    );
+    res.status(200).send('Rapper likes updated');
+  } catch (error) {
+    console.error('Error add likes', error);
+    res.status(500).send('Error updating likes');
+  }
+});
+
+
 //DELETE (delete a rapper from db)
 app.delete('/deleteRapper', async (req, res) => {
   try {
