@@ -1,21 +1,16 @@
-# Best Rapper App
+# Best Disney Song
 
-Welcome to the Best Rapper App! 
-
-## Features
-
-- Vote for your favorite rapper
-- View the leaderboard of top rappers
+Rank Disney Songs
 
 ## Installation
 
 1. Clone the repository:
   ```bash
-  git clone https://github.com/yourusername/bestRapper.git
+  git clone https://github.com/yourusername/disneyRank.git
   ```
 2. Navigate to the project directory:
   ```bash
-  cd bestRapper
+  cd disneyRank
   ```
 3. Install dependencies:
   ```bash
@@ -30,12 +25,6 @@ Welcome to the Best Rapper App!
   ```
 2. Open your browser and go to `http://localhost:3000`
 
-## Contributing
-
-We welcome contributions! Please fork the repository and submit a pull request.
-
 ## License
 
 This project is licensed under the MIT License.
-
-
