@@ -43,7 +43,7 @@ ul {
   width: 22%;
   margin: 1rem;
   padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #eee;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -66,4 +66,12 @@ button{
   border-radius: 5px;
   font-weight: 500;
   cursor: pointer;
+}
+
+input{
+  padding: 0.5rem;
+  margin: 0.2rem;
+  border: none;
+  border-radius: 5px;
+  background: #eee;
 }
