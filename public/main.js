@@ -7,14 +7,14 @@ thumbUps.forEach(function (element, i) {
   element.addEventListener('click', function () {
 
     const name = this.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText.trim();
-    const birthDate = this.parentNode.parentNode.parentNode.parentNode.childNodes[3].innerText.trim();
-   
-    fetch('addLike', {
+    const song = this.parentNode.parentNode.parentNode.parentNode.childNodes[3].innerText.trim();
+    console.log({ name, song })
+    fetch('likeMovie', {
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name,
-        birthDate
+        song
       }),
     })
       .then((response) => {
@@ -32,15 +32,15 @@ trashCans.forEach(function (element, i) {
     const ancestor = this.parentNode.parentNode.parentNode;
     const name =
       ancestor.childNodes[1].innerText.trim();
-    const birthDate =
+    const song =
       ancestor.childNodes[3].innerText.trim();
 
-    fetch('deleteRapper', {
+    fetch('delete', {
       method: 'delete',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name,
-        birthDate,
+        song,
       }),
     })
       .then((response) => {
@@ -57,22 +57,20 @@ trashCans.forEach(function (element, i) {
 });
 
 
-thumbsDown.forEach(function (element, i) {
+thumbsDown.forEach(function (element) {
   element.addEventListener('click', function () {
-    // console.log(`clicked ${i}`);
-    console.log(this.parentNode.parentNode.parentNode.parentNode.childNodes);
     const name =
       this.parentNode.parentNode.parentNode.parentNode.childNodes[1].innerText.trim();
-    const birthDate =
+    const song =
       this.parentNode.parentNode.parentNode.parentNode.childNodes[3].innerText.trim();
-    console.log({ name, birthDate });
+    console.log({ name, song });
 
-    fetch('subtractLike', {
+    fetch('dislike', {
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name,
-        birthDate,
+        song,
       }),
     })
       .then((response) => {
