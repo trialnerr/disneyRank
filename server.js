@@ -85,27 +85,28 @@ app.put('/likeMovie', async (req, res) => {
         $inc: { likes: 1 },
       }
     );
-    res.status(200).send('Song likes updated');
+    res.status(200).send('Song likes increased');
   } catch (error) {
     console.error('Error add likes', error);
     res.status(500).send('Error updating likes');
   }
 });
 
-//UPDATE (edit a rapper's likes)
-app.put('/subtractLike', async (req, res) => {
+//UPDATE (edit a songs's likes)
+//how to add a guide for if the 
+app.put('/dislike', async (req, res) => {
   try {
-    const { name, birthDate } = req.body;
+    const { name, song } = req.body;
     await collection.updateOne(
       {
         name,
-        birthDate,
+        song,
       },
       {
         $inc: { likes: -1 },
       }
     );
-    res.status(200).send('Rapper likes updated');
+    res.status(200).send('Song likes reduced');
   } catch (error) {
     console.error('Error add likes', error);
     res.status(500).send('Error updating likes');
@@ -113,14 +114,14 @@ app.put('/subtractLike', async (req, res) => {
 });
 
 
-//DELETE (delete a rapper from db)
-app.delete('/deleteRapper', async (req, res) => {
+//DELETE (delete a song from db)
+app.delete('/delete', async (req, res) => {
   try {
     await collection.deleteOne(req.body);
-    res.status(200).send('Rapper deleted');
+    res.status(200).send('Song deleted');
   } catch (error) {
     console.error('Error deleting rapper', error);
-    res.status(500).send('Error deleting rapper');
+    res.status(500).send('Error deleting song');
   }
 })
 
