@@ -29,7 +29,7 @@ async function connectToDB() {
   collection = client.db(dbName).collection('movies');
   console.log('You successfully connected to MongoDB!');
 }
-
+//worked with Mike Pennisi
 connectToDB()
   .then(() =>
     app
@@ -93,7 +93,6 @@ app.put('/likeMovie', async (req, res) => {
 });
 
 //UPDATE (edit a songs's likes)
-//how to add a guide for if the 
 app.put('/dislike', async (req, res) => {
   try {
     const { name, song } = req.body;
@@ -124,5 +123,6 @@ app.delete('/delete', async (req, res) => {
     res.status(500).send('Error deleting song');
   }
 })
+
 
 
