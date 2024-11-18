@@ -75,3 +75,15 @@ input{
   border-radius: 5px;
   background: #eee;
 }
+
+.commentsForm{
+  margin-top: 1rem;
+}
+.commentsForm input{
+  width: 90%;
+  border: 1px solid grey;
+}
+
+.hidden{
+  display: none; 
+}
