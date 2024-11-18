@@ -51,6 +51,7 @@ connectToDB()
 app.get('/', async (req, res) => {
   try {
     const movies = await collection.find().sort({ likes: -1 }).toArray();
+    console.log({ movies });
     res.status(200).render('index.ejs', { movies });
   } catch (error) {
     console.error(error);
@@ -61,11 +62,37 @@ app.get('/', async (req, res) => {
 //CREATE (add a song to db)
 app.post('/movies', async (req, res) => {
   try {
-    const { name, song } = req.body; 
-    const songInDB = await collection.findOne({ song });
-    if (!songInDB) {
-      await collection.insertOne({ ...req.body, likes: 0 });
-    }
+    const { song } = req.body;
+    // const songInDB = await collection.findOne({ song });
+    // if (!songInDB) {
+    //   await collection.insertOne({ ...req.body, likes: 0, comments: []});
+    // }
+
+    collection.updateOne(
+      { song },
+      {
+        $setOnInsert: { ...req.body, likes: 0, comments: [] },
+      },
+      { upsert: true }
+    );
+    res.redirect('/');
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post('/comments', async (req, res) => {
+  try {
+    const { name, song, comment } = req.body;
+    await collection.updateOne(
+      {
+        name,
+        song,
+      },
+      {
+        $push: { comments: comment },
+      }
+    );
     res.redirect('/');
   } catch (error) {
     console.log(error);
@@ -79,7 +106,7 @@ app.put('/likeMovie', async (req, res) => {
     await collection.updateOne(
       {
         name,
-        song
+        song,
       },
       {
         $inc: { likes: 1 },
@@ -112,7 +139,6 @@ app.put('/dislike', async (req, res) => {
   }
 });
 
-
 //DELETE (delete a song from db)
 app.delete('/delete', async (req, res) => {
   try {
@@ -122,7 +148,4 @@ app.delete('/delete', async (req, res) => {
     console.error('Error deleting rapper', error);
     res.status(500).send('Error deleting song');
   }
-})
-
-
-
+});
