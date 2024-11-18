@@ -12,7 +12,9 @@
 <body>
   <script src="main.js" defer></script>
   <h1>Ranking Disney Songs</h1>
-  <img src="https://media.giphy.com/media/hNDY4WzjStec8/giphy.gif?cid=790b7611gbccatomajnktwm2oylg7m69wr1fgb7je0xzk1bk&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="">
+  <img
+    src="https://media.giphy.com/media/hNDY4WzjStec8/giphy.gif?cid=790b7611gbccatomajnktwm2oylg7m69wr1fgb7je0xzk1bk&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+    alt="">
   <h2>Disney Songs</h2>
   <ul class="songs">
     <% for (let i=0; i < movies.length; i++){ %>
@@ -23,6 +25,15 @@
         <span>
           <%= movies[i].song %>
         </span>
+        <h3>Comments</h3>
+        <br>
+        <ul class="comments">
+          <% for (let j=0; j < movies[i].comments?.length; j++){ %>
+            <span>
+              <%= movies[i].comments[j] %>
+            </span>
+            <% } %>
+        </ul>
         <div class="wrapper">
           <div class="likes">
             <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
@@ -33,6 +44,12 @@
           </div>
           <span class="trash"><i class="fa fa-trash" aria-hidden="true"></i></span>
         </div>
+        <form action="/comments" class="commentsForm" method="post">
+          <input type="text" name="song" value="<%= movies[i].song %>" class="hidden">
+          <input type="text" name="name" value="<%= movies[i].name %>" class="hidden">
+          <input type="text" name="comment" id="<%= movies[i].song %>" placeholder="Enter comment">
+          <button type="submit">Comment</button>
+        </form>
       </li>
       <% } %>
   </ul>
