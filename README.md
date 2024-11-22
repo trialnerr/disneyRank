@@ -1,4 +1,4 @@
-# Best Disney Song
+# An app where you add and rank the best Disney Song
 
 Rank Disney Songs
 
